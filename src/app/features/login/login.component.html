@@ -1,1 +1,31 @@
-<p>login works!</p>
+<div class="hc-w-30 hc-ptop-5 hc-center">
+    <mat-card>
+        <mat-card-header class="hc-txt-center hc-pbottom-3">
+            <mat-card-title>
+                Habit Control
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="loginForm" (submit)="login()">
+                <mat-form-field class="hc-w-100">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" required>
+                    <mat-error *ngIf="loginForm.controls['email'].hasError('required')">
+                        Informe seu email
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="hc-w-100">
+                    <mat-label>Senha</mat-label>
+                    <input matInput formControlName="password" required>
+                    <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
+                        Informe sua senha
+                    </mat-error>
+                </mat-form-field>
+                <div class="hc-w-100 hc-txt-right">
+                    <button mat-button type="submit">Login</button>
+                    <button mat-button type="button">Cadastre-se</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
