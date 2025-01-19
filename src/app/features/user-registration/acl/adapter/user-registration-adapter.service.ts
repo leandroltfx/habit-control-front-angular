@@ -37,7 +37,7 @@ export class UserRegistrationAdapterService {
     httpErrorResponse: HttpErrorResponse
   ): UserRegistrationErrorResponseDto {
     return new UserRegistrationErrorResponseDto(
-      httpErrorResponse.error['message'],
+      httpErrorResponse.error['message'] ?? 'Ocorreu um erro, tente novamente mais tarde',
     )
   }
 }

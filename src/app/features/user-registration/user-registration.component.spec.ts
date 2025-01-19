@@ -273,4 +273,18 @@ describe('UserRegistrationComponent', () => {
 
     expect(userRegistrationFacadeServiceSpy.registerUser).not.toHaveBeenCalled();
   });
+
+  it('updateConfirmValidator - deve verificar o campo de confirmação de senha se o campo senha for alterado', () => {
+
+    userRegistrationComponent.userRegistrationForm = userRegistrationComponent['_buildUserRegistrationForm']();
+
+    userRegistrationComponent.userRegistrationForm.controls['username'].setValue('username');
+    userRegistrationComponent.userRegistrationForm.controls['email'].setValue('email@email.com');
+    userRegistrationComponent.userRegistrationForm.controls['password'].setValue('abc12345');
+    userRegistrationComponent.userRegistrationForm.controls['confirmPassword'].setValue('abc12347');
+
+    userRegistrationComponent.updateConfirmValidator();
+
+    expect(userRegistrationComponent.userRegistrationForm.controls['confirmPassword'].hasError('confirm')).toBeTrue();
+  });
 });

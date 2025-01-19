@@ -31,7 +31,7 @@ export class RecoverPasswordAdapterService {
     httpErrorResponse: HttpErrorResponse
   ): RecoverPasswordErrorResponseDto {
     return new RecoverPasswordErrorResponseDto(
-      httpErrorResponse.error['message'],
+      httpErrorResponse.error['message'] ?? 'Ocorreu um erro, tente novamente mais tarde',
     )
   }
 }
