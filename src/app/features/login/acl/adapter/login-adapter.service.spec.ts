@@ -62,4 +62,14 @@ describe('LoginAdapterService', () => {
     expect(loginResponseDto instanceof LoginErrorResponseDto).toBeTrue();
     expect(loginResponseDto.message).toBe('Ocorreu um erro no login, tente novamente mais tarde.');
   });
+
+  it('deve montar o DTO a partir da resposta de erro do login com mensagem de erro genérica', () => {
+
+    const loginResponseError: HttpErrorResponse = new HttpErrorResponse({ error: {} });
+
+    const loginResponseDto = <LoginErrorResponseDto>loginAdapterService.toLoginErrorResponseDto(loginResponseError);
+
+    expect(loginResponseDto instanceof LoginErrorResponseDto).toBeTrue();
+    expect(loginResponseDto.message).toBe('Ocorreu um erro, tente novamente mais tarde');
+  });
 });
