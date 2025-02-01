@@ -1,1 +1,44 @@
-<p>login works!</p>
+<div class="hc-w-30 hc-center hc-ptop-5">
+    <mat-card>
+        <header class="hc-txt-center hc-ptop-2">
+            <h1>Habit Control</h1>
+        </header>
+        <mat-card-content class="hc-ptop-2">
+            <form [formGroup]="loginForm" (submit)="login()">
+                <mat-form-field class="hc-w-100 hc-ptop-2">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" required>
+                    <mat-error *ngIf="loginForm.controls['email'].hasError('required')">
+                        Informe o email
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="hc-w-100 hc-ptop-2">
+                    <mat-label>Senha</mat-label>
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+                    <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+                        <mat-icon>{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
+                        Informe a senha
+                    </mat-error>
+                </mat-form-field>
+                <footer>
+                    <div class="hc-txt-right hc-ptop-1">
+                        <button mat-button type="button">Esqueceu a senha?</button>
+                    </div>
+                    <div class="hc-w-100 hc-ptop-1">
+                        <button type="submit" mat-raised-button color="primary" class="hc-w-100">Login</button>
+                    </div>
+                    <div class="hc-txt-left hc-ptop-1 hc-flex hc-align-items">
+                        <div>
+                            <span>Não tem uma conta?</span>
+                        </div>
+                        <div>
+                            <a mat-button type="button">Cadastre-se</a>
+                        </div>
+                    </div>
+                </footer>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
