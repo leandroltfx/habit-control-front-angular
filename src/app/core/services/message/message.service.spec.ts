@@ -32,13 +32,31 @@ describe('MessageService', () => {
 
     messageService.showMessage('message', 'success');
 
-    expect(matSnackBarSpy.open).toHaveBeenCalled();
+    expect(matSnackBarSpy.open).toHaveBeenCalledWith(
+      'message',
+      '',
+      {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: 'hc-success-message'
+      }
+    );
   });
 
   it('deve disparar mensagem do tipo error', () => {
 
     messageService.showMessage('message', 'error');
 
-    expect(matSnackBarSpy.open).toHaveBeenCalled();
+    expect(matSnackBarSpy.open).toHaveBeenCalledWith(
+      'message',
+      '',
+      {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: 'hc-error-message'
+      }
+    );
   });
 });
