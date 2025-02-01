@@ -2,3 +2,11 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Correção para o Angular 16 */
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+    background-color: transparent !important;
+}
+
+.hc-success-message { --mdc-snackbar-supporting-text-color: #000000 !important; background-color: #90ee90; text-align: center; }
+.hc-error-message { --mdc-snackbar-supporting-text-color: #000000 !important; background-color: #ec5353; text-align: center; }
