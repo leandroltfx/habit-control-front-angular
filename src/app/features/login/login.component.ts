@@ -26,13 +26,6 @@ export class LoginComponent implements OnInit {
     this.loginForm = this._buildLoginForm();
   }
 
-  private _buildLoginForm(): FormGroup {
-    return this._formBuilder.group({
-      email: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-    });
-  }
-
   public login(): void {
     if (this.loginForm.valid) {
       const email = this.loginForm.controls['email'].value;
@@ -47,6 +40,13 @@ export class LoginComponent implements OnInit {
         }
       );
     }
+  }
+
+  private _buildLoginForm(): FormGroup {
+    return this._formBuilder.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
   }
 
 }
