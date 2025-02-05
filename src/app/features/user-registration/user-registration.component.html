@@ -1,0 +1,76 @@
+<div class="hc-w-30 hc-center hc-ptop-5">
+    <mat-card>
+        <header class="hc-txt-center hc-ptop-2">
+            <h1>Cadastro de usuário</h1>
+        </header>
+        <mat-card-content class="hc-ptop-2">
+            <form [formGroup]="userRegistrationForm" (submit)="registerUser()">
+                <mat-form-field class="hc-w-100 hc-ptop-2">
+                    <mat-label>Nome de usuário</mat-label>
+                    <input matInput formControlName="username" required>
+                    <mat-error *ngIf="userRegistrationForm.controls['username'].hasError('required')">
+                        Informe um nome de usuário
+                    </mat-error>
+                    <mat-error *ngIf="userRegistrationForm.controls['username'].hasError('pattern')">
+                        O nome de usuário não deve conter espaços
+                    </mat-error>
+                    <mat-error *ngIf="userRegistrationForm.controls['username'].hasError('minlength')">
+                        O nome de usuário deve conter no mínimo 3 caracteres
+                    </mat-error>
+                    <mat-error *ngIf="userRegistrationForm.controls['username'].hasError('maxlength')">
+                        O nome de usuário não deve ultrapassar 30 caracteres
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="hc-w-100 hc-ptop-2">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" required>
+                    <mat-error *ngIf="userRegistrationForm.controls['email'].hasError('required')">
+                        Informe o seu email
+                    </mat-error>
+                    <mat-error *ngIf="userRegistrationForm.controls['email'].hasError('pattern')">
+                        Email inválido
+                    </mat-error>
+                    <mat-error *ngIf="userRegistrationForm.controls['email'].hasError('maxlength')">
+                        O email não deve ultrapassar 254 caracteres
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="hc-w-100 hc-ptop-2">
+                    <mat-label>Senha</mat-label>
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password"
+                        (ngModelChange)="updateConfirmValidator()">
+                    <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+                        <mat-icon>{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="userRegistrationForm.controls['password'].hasError('required')">
+                        Informe uma senha
+                    </mat-error>
+                    <mat-error *ngIf="userRegistrationForm.controls['password'].hasError('minlength')">
+                        A senha deve conter no mínimo 8 caracteres
+                    </mat-error>
+                    <mat-error *ngIf="userRegistrationForm.controls['password'].hasError('maxlength')">
+                        A senha não deve ultrapassar 64 caracteres
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="hc-w-100 hc-ptop-2">
+                    <mat-label>Confirme a senha</mat-label>
+                    <input matInput [type]="hideConfirmPassword ? 'password' : 'text'"
+                        formControlName="confirmPassword">
+                    <button type="button" mat-icon-button matSuffix
+                        (click)="hideConfirmPassword = !hideConfirmPassword">
+                        <mat-icon>{{hideConfirmPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="userRegistrationForm.controls['confirmPassword'].hasError('required')">
+                        Confirme sua senha
+                    </mat-error>
+                    <mat-error *ngIf="userRegistrationForm.controls['confirmPassword'].hasError('confirm')">
+                        Senhas inconsistentes
+                    </mat-error>
+                </mat-form-field>
+                <div class="hc-txt-right hc-ptop-2">
+                    <button type="submit" mat-raised-button color="primary" class="hc-mright-1">Cadastrar</button>
+                    <button type="button" mat-button [routerLink]="['/login']">Cancelar</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
