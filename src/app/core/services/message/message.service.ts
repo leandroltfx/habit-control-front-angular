@@ -25,7 +25,7 @@ export class MessageService {
       message,
       '',
       {
-        duration: 3000,
+        duration: 5000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
         panelClass: this.classesByMessageType.get(type),
