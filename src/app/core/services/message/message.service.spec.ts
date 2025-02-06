@@ -36,7 +36,7 @@ describe('MessageService', () => {
       'message',
       '',
       {
-        duration: 3000,
+        duration: 5000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
         panelClass: 'hc-success-message'
@@ -52,7 +52,7 @@ describe('MessageService', () => {
       'message',
       '',
       {
-        duration: 3000,
+        duration: 5000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
         panelClass: 'hc-error-message'
