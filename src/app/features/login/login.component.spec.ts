@@ -13,7 +13,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { of, throwError } from 'rxjs';
 
 import { LoginComponent } from './login.component';
+import { RoutesEnum } from '../../shared/enum/routes.enum';
 import { LoginFacadeService } from './acl/facade/login-facade.service';
+import { RoutesService } from '../../core/services/routes/routes.service';
 import { LoginResponseDto } from '../../shared/dto/login/login-response-dto';
 import { MessageService } from '../../core/services/message/message.service';
 import { LoginErrorResponseDto } from '../../shared/dto/login/error/login-error-response-dto';
@@ -23,12 +25,14 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let messageServiceSpy: jasmine.SpyObj<MessageService>;
   let loginFacadeServiceSpy: jasmine.SpyObj<LoginFacadeService>;
+  let routesServiceSpy: jasmine.SpyObj<RoutesService>;
   let router: Router;
   
   beforeEach(() => {
 
     loginFacadeServiceSpy = jasmine.createSpyObj('LoginFacadeService', ['login']);
     messageServiceSpy = jasmine.createSpyObj('MessageService', ['showMessage']);
+    routesServiceSpy = jasmine.createSpyObj('RoutesService', ['navigateToLogin', 'navigateToUserRegistration', 'navigateToRecoverPassword', 'navigateToHome']);
 
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
@@ -46,6 +50,7 @@ describe('LoginComponent', () => {
       providers: [
         { provide: LoginFacadeService, useValue: loginFacadeServiceSpy },
         { provide: MessageService, useValue: messageServiceSpy },
+        { provide: RoutesService, useValue: routesServiceSpy },
       ]
     });
     fixture = TestBed.createComponent(LoginComponent);
@@ -59,8 +64,6 @@ describe('LoginComponent', () => {
   });
 
   it('deve fazer login se o formulário estiver preenchido', () => {
-
-    const navigateSpy = spyOn(router, 'navigate');
 
     const loginResponseDto: LoginResponseDto = new LoginResponseDto(
       'Login efetuado com sucesso!',
@@ -76,7 +79,7 @@ describe('LoginComponent', () => {
 
     loginComponent.login();
 
-    expect(navigateSpy).toHaveBeenCalledWith(['/home']);
+    expect(routesServiceSpy.navigateToHome).toHaveBeenCalled();
     expect(loginFacadeServiceSpy.login).toHaveBeenCalledWith('email@email.com', 'password');
     expect(messageServiceSpy.showMessage).toHaveBeenCalledWith('Login efetuado com sucesso!', 'success');
   });
@@ -136,5 +139,19 @@ describe('LoginComponent', () => {
 
     expect(loginFacadeServiceSpy.login).not.toHaveBeenCalled();
     expect(messageServiceSpy.showMessage).not.toHaveBeenCalled();
+  });
+
+  it('deve rotear para o módulo de recuperação de senha', () => {
+    
+    loginComponent.navigateToRecoverPassword();
+
+    expect(routesServiceSpy.navigateToRecoverPassword).toHaveBeenCalled();
+  });
+
+  it('deve rotear para o módulo de cadastro de usuário', () => {
+    
+    loginComponent.navigateToUserRegistration();
+
+    expect(routesServiceSpy.navigateToUserRegistration).toHaveBeenCalled();
   });
 });

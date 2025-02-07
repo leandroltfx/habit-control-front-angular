@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { of, throwError } from 'rxjs';
 
 import { UserRegistrationComponent } from './user-registration.component';
+import { RoutesService } from '../../core/services/routes/routes.service';
 import { MessageService } from '../../core/services/message/message.service';
 import { UserRegistrationFacadeService } from './acl/facade/user-registration-facade.service';
 import { UserRegistrationResponseDto } from '../../shared/dto/user-registration/user-registration-response-dto';
@@ -23,12 +24,14 @@ describe('UserRegistrationComponent', () => {
   let fixture: ComponentFixture<UserRegistrationComponent>;
   let userRegistrationFacadeServiceSpy: jasmine.SpyObj<UserRegistrationFacadeService>;
   let messageServiceSpy: jasmine.SpyObj<MessageService>;
+  let routesServiceSpy: jasmine.SpyObj<RoutesService>;
   let router: Router;
 
   beforeEach(() => {
 
     userRegistrationFacadeServiceSpy = jasmine.createSpyObj('UserRegistrationFacadeService', ['registerUser']);
     messageServiceSpy = jasmine.createSpyObj('MessageService', ['showMessage']);
+    routesServiceSpy = jasmine.createSpyObj('RoutesService', ['navigateToLogin', 'navigateToUserRegistration', 'navigateToRecoverPassword', 'navigateToHome']);
 
     TestBed.configureTestingModule({
       declarations: [UserRegistrationComponent],
@@ -46,6 +49,7 @@ describe('UserRegistrationComponent', () => {
       providers: [
         { provide: UserRegistrationFacadeService, useValue: userRegistrationFacadeServiceSpy },
         { provide: MessageService, useValue: messageServiceSpy },
+        { provide: RoutesService, useValue: routesServiceSpy },
       ]
     });
     fixture = TestBed.createComponent(UserRegistrationComponent);
@@ -70,8 +74,6 @@ describe('UserRegistrationComponent', () => {
 
   it('registerUser - deve seguir o fluxo para cadastro de usuário se o formulário estiver válido', () => {
 
-    const navigateSpy = spyOn(router, 'navigate');
-
     const userRegistrationResponseDto: UserRegistrationResponseDto = new UserRegistrationResponseDto(
       'Usuário cadastrado com sucesso!',
       'admin@mail.com',
@@ -88,7 +90,7 @@ describe('UserRegistrationComponent', () => {
 
     userRegistrationComponent.registerUser();
 
-    expect(navigateSpy).toHaveBeenCalledWith(['/home']);
+    expect(routesServiceSpy.navigateToHome).toHaveBeenCalled();
     expect(userRegistrationFacadeServiceSpy.registerUser).toHaveBeenCalledWith('username', 'email@email.com', 'abc123abc');
   });
 
@@ -292,5 +294,12 @@ describe('UserRegistrationComponent', () => {
     userRegistrationComponent.updateConfirmValidator();
 
     expect(userRegistrationComponent.userRegistrationForm.controls['confirmPassword'].hasError('confirm')).toBeTrue();
+  });
+
+  it('deve rotear para o módulo de login', () => {
+
+    userRegistrationComponent.navigateToLogin();
+
+    expect(routesServiceSpy.navigateToLogin).toHaveBeenCalled();
   });
 });

@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { of, throwError } from 'rxjs';
 
 import { RecoverPasswordFacadeService } from './recover-password-facade.service';
 import { RecoverPasswordProxyService } from '../proxy/recover-password-proxy.service';
 import { RecoverPasswordAdapterService } from '../adapter/recover-password-adapter.service';
-import { of, throwError } from 'rxjs';
-import { RecoverPasswordResponseContract } from 'src/app/shared/contracts/recover-password/response/recover-password-response-contract';
-import { HttpErrorResponse } from '@angular/common/http';
+import { RecoverPasswordResponseContract } from '../../../../shared/contracts/recover-password/response/recover-password-response-contract';
 
 describe('RecoverPasswordFacadeService', () => {
   let recoverPasswordFacadeService: RecoverPasswordFacadeService;

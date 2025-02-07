@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { RoutesEnum } from './shared/enum/routes.enum';
+
 const routes: Routes = [
-  { path: 'login', loadChildren: () => import('./features/login/login.module').then(m => m.LoginModule) },
-  { path: 'user-registration', loadChildren: () => import('./features/user-registration/user-registration.module').then(m => m.UserRegistrationModule) },
-  { path: 'recover-password', loadChildren: () => import('./features/recover-password/recover-password.module').then(m => m.RecoverPasswordModule) },
-  { path: 'home', loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule) },
-  { path: '**', redirectTo: 'login' },
+  { path: RoutesEnum.LOGIN, loadChildren: () => import('./features/login/login.module').then(m => m.LoginModule) },
+  { path: RoutesEnum.USER_REGISTRATION, loadChildren: () => import('./features/user-registration/user-registration.module').then(m => m.UserRegistrationModule) },
+  { path: RoutesEnum.RECOVER_PASSWORD, loadChildren: () => import('./features/recover-password/recover-password.module').then(m => m.RecoverPasswordModule) },
+  { path: RoutesEnum.HOME, loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule) },
+  { path: '**', redirectTo: RoutesEnum.LOGIN },
 ];
 
 @NgModule({
