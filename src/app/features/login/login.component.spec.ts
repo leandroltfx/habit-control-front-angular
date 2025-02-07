@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -22,6 +23,7 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let messageServiceSpy: jasmine.SpyObj<MessageService>;
   let loginFacadeServiceSpy: jasmine.SpyObj<LoginFacadeService>;
+  let router: Router;
   
   beforeEach(() => {
 
@@ -48,6 +50,7 @@ describe('LoginComponent', () => {
     });
     fixture = TestBed.createComponent(LoginComponent);
     loginComponent = fixture.componentInstance;
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -56,6 +59,8 @@ describe('LoginComponent', () => {
   });
 
   it('deve fazer login se o formulário estiver preenchido', () => {
+
+    const navigateSpy = spyOn(router, 'navigate');
 
     const loginResponseDto: LoginResponseDto = new LoginResponseDto(
       'Login efetuado com sucesso!',
@@ -71,6 +76,7 @@ describe('LoginComponent', () => {
 
     loginComponent.login();
 
+    expect(navigateSpy).toHaveBeenCalledWith(['/home']);
     expect(loginFacadeServiceSpy.login).toHaveBeenCalledWith('email@email.com', 'password');
     expect(messageServiceSpy.showMessage).toHaveBeenCalledWith('Login efetuado com sucesso!', 'success');
   });

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   public hidePassword: boolean = true;
 
   constructor(
+    private readonly _router: Router,
     private readonly _formBuilder: FormBuilder,
     private readonly _messageService: MessageService,
     private readonly _loginFacadeService: LoginFacadeService,
@@ -35,7 +37,10 @@ export class LoginComponent implements OnInit {
         password,
       ).subscribe(
         {
-          next: (loginResponseDto: LoginResponseDto) => this._messageService.showMessage(loginResponseDto.message, 'success'),
+          next: (loginResponseDto: LoginResponseDto) => {
+            this._messageService.showMessage(loginResponseDto.message, 'success');
+            this._router.navigate(['/home']);
+          },
           error: (loginErrorResponseDto: LoginErrorResponseDto) => this._messageService.showMessage(loginErrorResponseDto.message, 'error'),
         }
       );
