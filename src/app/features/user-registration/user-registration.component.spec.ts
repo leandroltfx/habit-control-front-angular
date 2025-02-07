@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -22,6 +23,7 @@ describe('UserRegistrationComponent', () => {
   let fixture: ComponentFixture<UserRegistrationComponent>;
   let userRegistrationFacadeServiceSpy: jasmine.SpyObj<UserRegistrationFacadeService>;
   let messageServiceSpy: jasmine.SpyObj<MessageService>;
+  let router: Router;
 
   beforeEach(() => {
 
@@ -48,6 +50,7 @@ describe('UserRegistrationComponent', () => {
     });
     fixture = TestBed.createComponent(UserRegistrationComponent);
     userRegistrationComponent = fixture.componentInstance;
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -67,6 +70,8 @@ describe('UserRegistrationComponent', () => {
 
   it('registerUser - deve seguir o fluxo para cadastro de usuário se o formulário estiver válido', () => {
 
+    const navigateSpy = spyOn(router, 'navigate');
+
     const userRegistrationResponseDto: UserRegistrationResponseDto = new UserRegistrationResponseDto(
       'Usuário cadastrado com sucesso!',
       'admin@mail.com',
@@ -83,6 +88,7 @@ describe('UserRegistrationComponent', () => {
 
     userRegistrationComponent.registerUser();
 
+    expect(navigateSpy).toHaveBeenCalledWith(['/home']);
     expect(userRegistrationFacadeServiceSpy.registerUser).toHaveBeenCalledWith('username', 'email@email.com', 'abc123abc');
   });
 
