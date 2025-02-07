@@ -68,7 +68,7 @@
                 </mat-form-field>
                 <div class="hc-txt-right hc-ptop-2">
                     <button type="submit" mat-raised-button color="primary" class="hc-mright-1">Cadastrar</button>
-                    <button type="button" mat-button [routerLink]="['/login']">Cancelar</button>
+                    <button type="button" mat-button (click)="navigateToLogin()" [routerLink]="['/login']">Cancelar</button>
                 </div>
             </form>
         </mat-card-content>

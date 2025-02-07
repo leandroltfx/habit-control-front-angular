@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { RoutesService } from '../../core/services/routes/routes.service';
 import { MessageService } from '../../core/services/message/message.service';
 import { RecoverPasswordFacadeService } from './acl/facade/recover-password-facade.service';
 import { RecoverPasswordResponseDto } from '../../shared/dto/recover-password/recover-password-response-dto';
@@ -21,9 +22,10 @@ export class RecoverPasswordComponent {
   constructor(
     private readonly _router: Router,
     private readonly _formBuilder: FormBuilder,
+    private readonly _routesService: RoutesService,
     private readonly _messageService: MessageService,
     private readonly _recoverPasswordFacadeService: RecoverPasswordFacadeService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.recoverPasswordForm = this._buildRecoverPasswordForm();
@@ -38,12 +40,16 @@ export class RecoverPasswordComponent {
         {
           next: (recoverPasswordResponseDto: RecoverPasswordResponseDto) => {
             this._messageService.showMessage(recoverPasswordResponseDto.message, 'success');
-            this._router.navigate(['/login']);
+            this._routesService.navigateToLogin();
           },
           error: (recoverPasswordErrorResponseDto: RecoverPasswordErrorResponseDto) => this._messageService.showMessage(recoverPasswordErrorResponseDto.message, 'error'),
         }
       );
     }
+  }
+
+  public navigateToLogin(): void {
+    this._routesService.navigateToLogin();
   }
 
   private _buildRecoverPasswordForm(): FormGroup {

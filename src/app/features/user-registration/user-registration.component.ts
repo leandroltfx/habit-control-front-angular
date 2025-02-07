@@ -1,6 +1,9 @@
+import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { RoutesEnum } from '../../shared/enum/routes.enum';
+import { RoutesService } from '../../core/services/routes/routes.service';
 import { MessageService } from '../../core/services/message/message.service';
 import { UserRegistrationFacadeService } from './acl/facade/user-registration-facade.service';
 import { UserRegistrationResponseDto } from '../../shared/dto/user-registration/user-registration-response-dto';
@@ -26,7 +29,9 @@ export class UserRegistrationComponent {
   private _maxLengthPassword: number = 64;
 
   constructor(
+    private readonly _router: Router,
     private readonly _formBuilder: FormBuilder,
+    private readonly _routesService: RoutesService,
     private readonly _messageService: MessageService,
     private readonly _userRegistrationFacadeService: UserRegistrationFacadeService,
   ) { }
@@ -50,11 +55,18 @@ export class UserRegistrationComponent {
         password,
       ).subscribe(
         {
-          next: (userRegistrationResponseDto: UserRegistrationResponseDto) => this._messageService.showMessage(userRegistrationResponseDto.message, 'success'),
+          next: (userRegistrationResponseDto: UserRegistrationResponseDto) => {
+            this._messageService.showMessage(userRegistrationResponseDto.message, 'success');
+            this._routesService.navigateToHome();
+          },
           error: (userRegistrationErrorResponseDto: UserRegistrationErrorResponseDto) => this._messageService.showMessage(userRegistrationErrorResponseDto.message, 'error'),
         }
       );
     }
+  }
+
+  public navigateToLogin(): void {
+    this._routesService.navigateToLogin();
   }
 
   private _buildUserRegistrationForm(): FormGroup {

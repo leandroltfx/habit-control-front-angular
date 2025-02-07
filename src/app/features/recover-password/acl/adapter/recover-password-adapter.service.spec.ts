@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { RecoverPasswordAdapterService } from './recover-password-adapter.service';
-import { RecoverPasswordRequestContract } from 'src/app/shared/contracts/recover-password/request/recover-password-request-contract';
-import { RecoverPasswordResponseContract } from 'src/app/shared/contracts/recover-password/response/recover-password-response-contract';
-import { RecoverPasswordResponseDto } from 'src/app/shared/dto/recover-password/recover-password-response-dto';
-import { HttpErrorResponse } from '@angular/common/http';
-import { RecoverPasswordErrorResponseDto } from 'src/app/shared/dto/recover-password/error/recover-password-error-response-dto';
+import { RecoverPasswordResponseDto } from '../../../../shared/dto/recover-password/recover-password-response-dto';
+import { RecoverPasswordErrorResponseDto } from '../../../../shared/dto/recover-password/error/recover-password-error-response-dto';
+import { RecoverPasswordRequestContract } from '../../../../shared/contracts/recover-password/request/recover-password-request-contract';
+import { RecoverPasswordResponseContract } from '../../../../shared/contracts/recover-password/response/recover-password-response-contract';
 
 describe('RecoverPasswordAdapterService', () => {
   let recoverPasswordAdapterService: RecoverPasswordAdapterService;

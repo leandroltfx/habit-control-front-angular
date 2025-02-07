@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -12,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { of, throwError } from 'rxjs';
 
 import { UserRegistrationComponent } from './user-registration.component';
+import { RoutesService } from '../../core/services/routes/routes.service';
 import { MessageService } from '../../core/services/message/message.service';
 import { UserRegistrationFacadeService } from './acl/facade/user-registration-facade.service';
 import { UserRegistrationResponseDto } from '../../shared/dto/user-registration/user-registration-response-dto';
@@ -22,11 +24,14 @@ describe('UserRegistrationComponent', () => {
   let fixture: ComponentFixture<UserRegistrationComponent>;
   let userRegistrationFacadeServiceSpy: jasmine.SpyObj<UserRegistrationFacadeService>;
   let messageServiceSpy: jasmine.SpyObj<MessageService>;
+  let routesServiceSpy: jasmine.SpyObj<RoutesService>;
+  let router: Router;
 
   beforeEach(() => {
 
     userRegistrationFacadeServiceSpy = jasmine.createSpyObj('UserRegistrationFacadeService', ['registerUser']);
     messageServiceSpy = jasmine.createSpyObj('MessageService', ['showMessage']);
+    routesServiceSpy = jasmine.createSpyObj('RoutesService', ['navigateToLogin', 'navigateToUserRegistration', 'navigateToRecoverPassword', 'navigateToHome']);
 
     TestBed.configureTestingModule({
       declarations: [UserRegistrationComponent],
@@ -44,10 +49,12 @@ describe('UserRegistrationComponent', () => {
       providers: [
         { provide: UserRegistrationFacadeService, useValue: userRegistrationFacadeServiceSpy },
         { provide: MessageService, useValue: messageServiceSpy },
+        { provide: RoutesService, useValue: routesServiceSpy },
       ]
     });
     fixture = TestBed.createComponent(UserRegistrationComponent);
     userRegistrationComponent = fixture.componentInstance;
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -83,6 +90,7 @@ describe('UserRegistrationComponent', () => {
 
     userRegistrationComponent.registerUser();
 
+    expect(routesServiceSpy.navigateToHome).toHaveBeenCalled();
     expect(userRegistrationFacadeServiceSpy.registerUser).toHaveBeenCalledWith('username', 'email@email.com', 'abc123abc');
   });
 
@@ -286,5 +294,12 @@ describe('UserRegistrationComponent', () => {
     userRegistrationComponent.updateConfirmValidator();
 
     expect(userRegistrationComponent.userRegistrationForm.controls['confirmPassword'].hasError('confirm')).toBeTrue();
+  });
+
+  it('deve rotear para o módulo de login', () => {
+
+    userRegistrationComponent.navigateToLogin();
+
+    expect(routesServiceSpy.navigateToLogin).toHaveBeenCalled();
   });
 });

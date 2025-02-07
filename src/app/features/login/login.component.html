@@ -24,7 +24,7 @@
                 </mat-form-field>
                 <footer>
                     <div class="hc-txt-right hc-ptop-1">
-                        <button mat-button type="button" [routerLink]="['/recover-password']">Esqueceu a senha?</button>
+                        <button mat-button type="button" (click)="navigateToRecoverPassword()">Esqueceu a senha?</button>
                     </div>
                     <div class="hc-w-100 hc-ptop-1">
                         <button type="submit" mat-raised-button color="primary" class="hc-w-100">Login</button>
@@ -34,7 +34,7 @@
                             <span>Não tem uma conta?</span>
                         </div>
                         <div>
-                            <a mat-button type="button" [routerLink]="['/user-registration']">Cadastre-se</a>
+                            <a mat-button type="button" (click)="navigateToUserRegistration()">Cadastre-se</a>
                         </div>
                     </div>
                 </footer>

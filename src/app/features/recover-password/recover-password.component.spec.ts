@@ -12,7 +12,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { of, throwError } from 'rxjs';
 
+import { RoutesEnum } from '../../shared/enum/routes.enum';
 import { RecoverPasswordComponent } from './recover-password.component';
+import { RoutesService } from '../../core/services/routes/routes.service';
 import { MessageService } from '../../core/services/message/message.service';
 import { RecoverPasswordFacadeService } from './acl/facade/recover-password-facade.service';
 import { RecoverPasswordResponseDto } from '../../shared/dto/recover-password/recover-password-response-dto';
@@ -23,12 +25,14 @@ describe('RecoverPasswordComponent', () => {
   let recoverPasswordComponent: RecoverPasswordComponent;
   let messageServiceSpy: jasmine.SpyObj<MessageService>;
   let recoverPasswordFacadeServiceSpy: jasmine.SpyObj<RecoverPasswordFacadeService>;
+  let routesServiceSpy: jasmine.SpyObj<RoutesService>;
   let router: Router;
 
   beforeEach(() => {
 
     messageServiceSpy = jasmine.createSpyObj('MessageService', ['showMessage']);
     recoverPasswordFacadeServiceSpy = jasmine.createSpyObj('RecoverPasswordFacadeService', ['sendEmail']);
+    routesServiceSpy = jasmine.createSpyObj('RoutesService', ['navigateToLogin', 'navigateToUserRegistration', 'navigateToRecoverPassword', 'navigateToHome']);
 
     TestBed.configureTestingModule({
       declarations: [RecoverPasswordComponent],
@@ -45,7 +49,8 @@ describe('RecoverPasswordComponent', () => {
       ],
       providers: [
         { provide: MessageService, useValue: messageServiceSpy },
-        { provide: RecoverPasswordFacadeService, useValue: recoverPasswordFacadeServiceSpy }
+        { provide: RecoverPasswordFacadeService, useValue: recoverPasswordFacadeServiceSpy },
+        { provide: RoutesService, useValue: routesServiceSpy },
       ]
     });
     fixture = TestBed.createComponent(RecoverPasswordComponent);
@@ -60,8 +65,6 @@ describe('RecoverPasswordComponent', () => {
 
   it('sendLinktoEmail - deve enviar link de recuperação de senha se o email for preenchido corretamente', () => {
 
-    const navigateSpy = spyOn(router, 'navigate');
-
     const recoverPasswordResponseDto: RecoverPasswordResponseDto = new RecoverPasswordResponseDto(
       'Um link para a recuperação da senha foi enviada para seu email.'
     );
@@ -74,9 +77,9 @@ describe('RecoverPasswordComponent', () => {
 
     recoverPasswordComponent.sendLinktoEmail();
 
+    expect(routesServiceSpy.navigateToLogin).toHaveBeenCalled();
     expect(recoverPasswordFacadeServiceSpy.sendEmail).toHaveBeenCalledWith('email@email.com');
     expect(messageServiceSpy.showMessage).toHaveBeenCalledWith('Um link para a recuperação da senha foi enviada para seu email.', 'success');
-    expect(navigateSpy).toHaveBeenCalledWith(['/login']);
   });
 
   it('deve disparar mensagem de erro se der erro na recuperação de senha', () => {
@@ -116,5 +119,12 @@ describe('RecoverPasswordComponent', () => {
     recoverPasswordComponent.sendLinktoEmail();
 
     expect(recoverPasswordFacadeServiceSpy.sendEmail).not.toHaveBeenCalled();
+  });
+
+  it('deve rotear para o módulo de login', () => {
+
+    recoverPasswordComponent.navigateToLogin();
+
+    expect(routesServiceSpy.navigateToLogin).toHaveBeenCalled();
   });
 });
